@@ -1,7 +1,12 @@
 <template>
   <div id="app">
-    <input v-model='src' style='width:100%' />
-    <pdf class='editor' :src='src' />
+    <input v-model='pdfUrl' style='width:100%' />
+    <pdf
+        v-for="i in numPages"
+        :key="i"
+        :src="src"
+        :num="i"
+    />
   </div>
 </template>
 
@@ -15,9 +20,17 @@ export default {
   },
   data() {
     return {
-      src: 'https://prague.test.tyrecheck.com/API/api/Report/1cea522c-be61-41b3-818a-833c3c1ba5a5',
+      pdfUrl: 'https://prague.test.tyrecheck.com/API/api/Report/1cea522c-be61-41b3-818a-833c3c1ba5a5',
+      numPages: 0
     }
   },
+  created () {
+      const loadingTask = window.pdfjsLib.getDocument(this.pdfUrl)
+        this.src = loadingTask.promise
+        this.src.then( pdf => {
+            this.numPages = pdf.numPages
+        })
+  }
 }
 </script>
 

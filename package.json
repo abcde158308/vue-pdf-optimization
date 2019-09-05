@@ -1,9 +1,9 @@
 {
-  "name": "vue-pdf-cdn",
-  "version": "1.0.2",
-  "description": "Lightweight PDF viewer for Vue.js using CDN",
+  "name": "vue-pdf-optimization",
+  "version": "1.0.1",
+  "description": "Lightweight PDF viewer for optimization",
   "repository": {
-    "url": "https://github.com/leo-buneev/vue-pdf-cdn/",
+    "url": "https://github.com/abcde158308/vue-pdf-optimization.git",
     "type": "git"
   },
   "private": false,
@@ -43,7 +43,7 @@
     "pdf",
     "pdfjs"
   ],
-  "author": "leo-buneev <buneev.leonid@gmail.com>",
+  "author": "liulei",
   "license": "MIT",
   "main": "dist/vue-pdf-cdn.umd.js",
   "module": "dist/vue-pdf-cdn.common.min.js"
