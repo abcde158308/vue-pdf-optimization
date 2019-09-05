@@ -3,23 +3,23 @@ export default {
   name: 'VuePdf',
   props: {
     src: {
-      type: Promise
+      type: Promise,
     },
     num: {
-        type: Number,
-        default: 1
-    }
+      type: Number,
+      default: 1,
+    },
   },
-  mounted () {
+  mounted() {
     this.init()
   },
   watch: {
-    src () {
+    src() {
       this.loadFile()
-    }
+    },
   },
   methods: {
-    cleanup () {
+    cleanup() {
       if (this._pdf) {
         this._pdf.cleanup()
         this._pdf.destroy()
@@ -31,18 +31,18 @@ export default {
         this._page = null
       }
     },
-    async init () {
+    async init() {
       try {
         this.$emit('status', 'Initializing PDF viewer...')
         this.$emit('loading', true)
-       // await externalScriptLoader.ensureScriptIsLoaded('https://unpkg.com/pdfjs-dist@latest/build/pdf.min.js')
+        // await externalScriptLoader.ensureScriptIsLoaded('https://unpkg.com/pdfjs-dist@latest/build/pdf.min.js')
         this.loadFile()
       } catch (e) {
         this.$emit('error', { message: 'Error during initializing PDF viewer', e })
         console.error('Failure during loading PDF.js:', e)
       }
     },
-    async loadFile () {
+    async loadFile() {
       if (this._loadingPromise) await this._loadingPromise
 
       const newPromise = this.loadFileInner()
@@ -52,7 +52,7 @@ export default {
         this._loadingPromise = null
       }
     },
-    async loadFileInner () {
+    async loadFileInner() {
       if (this._loadingPromise) await this._loadingPromise
       this.cleanup()
       if (!this.src) return
@@ -62,7 +62,6 @@ export default {
         // const loadingTask = window.pdfjsLib.getDocument(this.src)
         // this._pdf = await loadingTask.promise
         this._pdf = await this.src
-        console.log(this._pdf._pdfInfo.numPages)
         this.$emit('status', 'Rendering document...')
         const pageNumber = this.num
         this._page = await this._pdf.getPage(pageNumber)
@@ -77,7 +76,7 @@ export default {
         canvas.width = scaledViewport.width
         const renderTask = this._page.render({
           canvasContext: canvas.getContext('2d'),
-          viewport: scaledViewport
+          viewport: scaledViewport,
         })
         await renderTask.promise
         this.$emit('status', 'Render complete!')
@@ -86,14 +85,14 @@ export default {
         console.error('Failure during downloading PDF file:', e)
       }
       this.$emit('loading', false)
-    }
+    },
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.cleanup()
   },
-  render (h) {
+  render(h) {
     return h('div', { attrs: { style: 'position: relative; overflow:auto;' } }, [
-      h('canvas', { style: { display: 'block', width: '100%' }, ref: 'canvas' })
+      h('canvas', { style: { display: 'block', width: '100%' }, ref: 'canvas' }),
     ])
-  }
+  },
 }
